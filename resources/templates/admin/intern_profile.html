@@ -1,0 +1,158 @@
+{% extends "/base.html" %}
+{% block content %}
+
+
+<div class="container" ng-init="userProfileInit()">
+
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10">
+            <h2><span class="glyphicon glyphicon-user"></span> Edit Profile</h2>
+            <hr>
+        </div>
+    </div>
+userid {{userid}}
+{{user}}
+    <div class="row">
+        <div class="col-sm-6">
+            <h3>Basic Info</h3>
+            <hr>
+            <form  role="form" class="form-horizontal" method="post" action="/admin/intern">
+                {{token|safe}}
+                    <div class="form-group">
+                    <label for="fullname" class="col-sm-3 control-label">Full Name</label>
+                    <div class="col-sm-9">
+                        {% for error in errors.name %}
+                            <p class>{{error}}</p>
+                        {% endfor %}
+                        <input required type="text" value="{{user.name}}" class="form-control" id="fullname" placeholder="Full Name" name="name">
+                    </div>
+                </div>
+                <div class="form-group">
+
+                    <label for="inputEmail3" class="col-sm-3 control-label">Email</label>
+
+                    <div class="col-sm-9">
+                        {% for error in errors.email %}
+                            <p>{{error}}</p>
+                        {% endfor %}
+                        <input required type="email" value="{{user.email}}" class="form-control" id="inputEmail3" placeholder="Email" name="email">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="educationlevel" class="col-sm-3 control-label">Education</label>
+                    <div class="col-sm-9">
+                        {% for error in errors.educationlevel %}
+                            <p>{{error}}</p>
+                        {% endfor %}
+                        <select required class="form-control" value="{{educationlevelid}}" id="education" name="educationlevelid">
+                            <option value="">Please select your level of education...</option>
+                            {% for educationlevel in educationlevels %}
+                                <option {% ifequal educationlevel.id  user.educationlevelid %} selected {%endifequal%} value={{educationlevel.id}}>{{educationlevel.descr}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <br>
+                <!-- ------------------------------------------------------------------ -->
+                <h3>Addiditional Info</h3>
+                <hr>
+                <div class="form-group">
+                    <label for="majors" class="col-sm-3 control-label">Majors</label>
+                    <div class="col-sm-9">
+                        <input type="text" value="{{user.majors}}" class="form-control" id="majors" placeholder="e.g. journalism, english" name="majors">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="minors" class="col-sm-3 control-label">Minors</label>
+                    <div class="col-sm-9">
+                        <input type="text" value="{{user.minors}}" class="form-control" id="minors" placeholder="e.g. computer science, mathematics" name="minors">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="province" class="col-sm-3 control-label">Province</label>
+                    <div class="col-sm-9">
+                        <select ng-model="provinceid" class="form-control" value="{{user.provinceid}}" id="province" name="provinceid">
+                            <option value="select">Select Province...</option>
+                            {% for province in provinces %}
+                                <option value={{province.id}}>{{province.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-show="provinceid != 'select' ">
+                    <label for="city" class="col-sm-3 control-label">City</label>
+                    <div class="col-sm-9">
+                        <select ng-model="city" class="form-control" value="{{user.cityid}}" id="city" name="cityid" ng-options="city.id as city.name for city in cities">
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="age" class="col-sm-3 control-label">Age</label>
+                    <div class="col-sm-9">
+                        <input type="number" value="{{user.age}}" class="form-control" id="age" placeholder="age" name="age">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="mobileno" class="col-sm-3 control-label">Mobile No</label>
+                    <div class="col-sm-9">
+                        <input type="text" value="{{user.mobileno}}" class="form-control" id="mobileno" placeholder="Mobile No" name="mobileno">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="intrests" class="col-sm-3 control-label">About Me</label>
+                    <div class="col-sm-9">
+                        <textarea  value="{{intrests}}" class="form-control" id="intrests"  name="intrests"></textarea>
+                    </div>
+                </div>
+
+                <br>
+                <!-- ------------------------------------------------------------------ -->
+                <h3>Account Settings</h3>
+                <hr>
+                <div class="form-group">
+                    <div class="radio">
+                      <label>
+                        <input type="radio" name="privacySettings" id="optionsRadios1" value="option1" checked>
+                        Public Profile
+                      </label>
+                    </div>
+                    <div class="radio">
+                      <label>
+                        <input type="radio" name="privacySettings" id="optionsRadios2" value="option2" disabled>
+                        Only Registered companies can view my profile
+                      </label>
+                    </div>
+                    <div class="radio disabled">
+                      <label>
+                        <input type="radio" name="privacySettings" id="optionsRadios3" value="option3" disabled>
+                        Only companies whose position I've applied for can see my profile
+                      </label>
+                    </div>
+                </div>
+                <br>
+                <button type="submit" class="btn btn-success btn-lg btn-block">Save Profile</button>
+            </form>
+
+        </div>
+        <!-- column on the right just incase -->
+        <div class="col-sm-5 col-sm-offset-1">
+
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+{% endblock %}

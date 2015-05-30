@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="jumbotron">
+   userid = {{newuserlink}}
+
+  <div class="row">
+
+    <div class="col-sm-6">
+
+        {% ifequal view "show-login" %}
+
+        <div class="row">
+            <div class="col-sm-3">
+            </div>
+            <div class="col-sm-9">
+                <p><b>Sign up now!</b><p>
+            </div>
+        </div>
+
+        <form  role="form" class="form-horizontal" method="post" action="/">
+            {{token|safe}}
+                <div class="form-group">
+                <label for="fullname" class="col-sm-3 control-label">Full Name</label>
+                <div class="col-sm-9">
+                    {% for error in errors.name %}
+                        <p class>{{error}}</p>
+                    {% endfor %}
+                    <input required type="text" value="{{name}}" class="form-control" id="fullname" placeholder="Full Name" name="name">
+                </div>
+            </div>
+            <div class="form-group">
+
+                <label for="inputEmail3" class="col-sm-3 control-label">Email</label>
+
+                <div class="col-sm-9">
+                    {% for error in errors.email %}
+                        <p>{{error}}</p>
+                    {% endfor %}
+                    <input required type="email" value="{{email}}" class="form-control" id="inputEmail3" placeholder="Email" name="email">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword3" class="col-sm-3 control-label">Password</label>
+                <div class="col-sm-9">
+                    {% for error in errors.password %}
+                        <p>{{error}}</p>
+                    {% endfor %}
+                    <input required type="password" value="{{password}}" class="form-control" id="inputPassword3" placeholder="Password" name="password">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="educationlevel" class="col-sm-3 control-label">Education</label>
+                <div class="col-sm-9">
+                    {% for error in errors.educationlevel %}
+                        <p>{{error}}</p>
+                    {% endfor %}
+                    <select required class="form-control" value="{{educationlevelid}}" id="education" name="educationlevelid">
+                        <option value="">Please select your level of education...</option>
+                        {% for educationlevel in educationlevels %}
+                            <option {% ifequal educationlevel.id  educationlevelid %} selected {%endifequal%} value={{educationlevel.id}}>{{educationlevel.descr}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-9">
+                    <button type="submit" class="btn btn-default">Sign Up</button>
+                </div>
+            </div>
+        </form>
+
+        {% else %}
+
+        <h3>Sign up complete!</h3>
+        <p>We have sent you an email to validate your profile.</p>
+
+        {% endifequal %}
+
+    </div>
+
+    <div class="col-sm-6">
+    </div>
+
+  </div>
+</div>
+
+<div class="row">
+  <div class="span12">
+    {{docs|markdown}}
+  </div>
+</div>
+{% endblock %}
